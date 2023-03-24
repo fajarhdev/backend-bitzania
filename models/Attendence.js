@@ -26,7 +26,7 @@ const Attendence = Conn.define(
 		clockin_id: {
 			type: DataTypes.INTEGER,
 			unique: true,
-			allowNull: false,
+			allowNull: true,
 			references: {
 				model: Clockin,
 				key: "id",
@@ -35,7 +35,7 @@ const Attendence = Conn.define(
 		clockout_id: {
 			type: DataTypes.INTEGER,
 			unique: true,
-			allowNull: false,
+			allowNull: true,
 			references: {
 				model: Clockout,
 				key: "id",

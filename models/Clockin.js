@@ -22,7 +22,7 @@ const Clockin = Conn.define(
 		},
 		statuses_id: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: true,
 			unique: false,
 			references: {
 				model: Status,
