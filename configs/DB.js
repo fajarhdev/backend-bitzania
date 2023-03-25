@@ -6,8 +6,8 @@ require("dotenv").config();
 // 	port: "3306",
 // 	dialect: "mysql",
 // });
-
-const Conn = new Sequelize(process.env.DB_URL, {
+const dbUri = process.env.DB_URL;
+const Conn = new Sequelize(String(dbUri), {
 	dialect: "mysql",
 });
 module.exports = Conn;
