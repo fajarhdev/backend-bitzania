@@ -306,7 +306,7 @@ const ReportFilter = async (req, res) => {
 			// // return
 			// return res.status(200).json({ data: getData });
 		}
-		const pagination = ` u.id = ${users_id} LIMIT ${limits} OFFSET ${offsets}`;
+		const pagination = ` LIMIT ${limits} OFFSET ${offsets}`;
 		const query = fixQuery + condQuery + pagination;
 		console.log(query);
 		const getData = await Conn.query(query, { type: QueryTypes.SELECT });
