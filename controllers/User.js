@@ -26,7 +26,7 @@ const Login = async (req, res) => {
 		);
 		// validate password
 		const validPass = await bcrypt.compare(password, getUser[0].password);
-
+		console.log(validPass);
 		if (getUser === null || validPass === false) {
 			return res.status(400).json({ data: "NIS tidak terdaftar atau password salah" });
 		}
