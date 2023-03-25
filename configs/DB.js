@@ -7,5 +7,7 @@ require("dotenv").config();
 // 	dialect: "mysql",
 // });
 
-const Conn = new Sequelize(process.env.DB_URL);
+const Conn = new Sequelize(process.env.DB_URL, {
+	dialect: "mysql",
+});
 module.exports = Conn;
