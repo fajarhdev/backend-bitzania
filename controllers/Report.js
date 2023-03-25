@@ -10,12 +10,10 @@ var date = `${year}-${month}-${day}`;
 
 // first load
 const Report = async (req, res) => {
-	// const { dateAwal, dateAkhir, name, classroom } = req.body;
 	const { page, limit } = req.query;
 
 	const limits = limit ? parseInt(limit) : 10;
 	const offsets = page ? (page - 1 < 0 ? 0 : (page - 1) * limits) : 0;
-	// console.log(offsets);
 	try {
 		const getTotalData = await Conn.query(
 			"SELECT COUNT(u.id) as totaluser " +
@@ -24,29 +22,15 @@ const Report = async (req, res) => {
 				date +
 				"' LEFT JOIN clockout co ON co.users_id = u.id AND co.date = '" +
 				date +
-				"' WHERE ci.date = co.date OR ci.date IS null OR co.date IS null",
+				"' WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)",
 			{
 				type: QueryTypes.SELECT,
 			}
 		);
 		const totalPages = Math.ceil(getTotalData[0].totaluser / limits);
 		const currentPage = Math.ceil(offsets / limits) + 1;
-		console.log(totalPages);
 		// get data pagination
-		// const [getData, _] = await Conn.query(
-		// 	"SELECT u.id, u.name, ci.date as date, ci.time as clockin, co.time as clockout" +
-		// 		" FROM users u" +
-		// 		" LEFT JOIN clockin ci ON ci.users_id = u.id AND ci.date = '" +
-		// 		date +
-		// 		"' LEFT JOIN clockout co ON co.users_id = u.id AND co.date = '" +
-		// 		date +
-		// 		"' WHERE ci.date = co.date OR ci.date IS undefined OR co.date IS undefined" +
-		// 		" LIMIT " +
-		// 		limits +
-		// 		" OFFSET " +
-		// 		offsets,
-		// 	{ type: QueryTypes.SELECT }
-		// );
+
 		const getData = await Conn.query(
 			"SELECT u.id, u.name, ci.date as date, ci.time as clockin, s.name as clockin_status, co.time as clockout, so.name as clockout_status" +
 				" FROM users u" +
@@ -58,7 +42,7 @@ const Report = async (req, res) => {
 				"'" +
 				" LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE ci.date = co.date OR ci.date IS null OR co.date IS null" +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)" +
 				" LIMIT " +
 				limits +
 				" OFFSET " +

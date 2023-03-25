@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const Conn = require("../configs/DB");
 const { QueryTypes } = require("sequelize");
 var jwt = require("jsonwebtoken");
-const Token = require("../models/Token");
 require("dotenv").config();
 
 const Login = async (req, res) => {
@@ -25,15 +24,13 @@ const Login = async (req, res) => {
 				type: QueryTypes.SELECT,
 			}
 		);
-
-		console.log(getUser);
 		// validate password
-		// const validPass = await bcrypt.compare(password, getUser.password);
+		const validPass = await bcrypt.compare(password, getUser[0].password);
 
-		if ((getUser === null || getUser === undefined) && validPass === false) {
+		if (getUser === null || validPass === false) {
 			return res.status(400).json({ data: "NIS tidak terdaftar atau password salah" });
 		}
-		console.log(process.env.SECRET_KEY);
+
 		const token = jwt.sign({ users_id: getUser[0].id }, process.env.SECRET_KEY, {
 			expiresIn: "1h",
 		});
@@ -45,12 +42,13 @@ const Login = async (req, res) => {
 };
 
 const Register = async (req, res) => {
-	const { name, nis, classroom } = req.body;
+	const { name, nis, classroom, password } = req.body;
 	// validation input
 	if (
 		(nis === null || nis === undefined || nis === "") &&
 		(name === null || name === undefined || name === "") &&
-		(classroom === null || classroom === undefined || classroom === "")
+		(classroom === null || classroom === undefined || classroom === "") &&
+		(password === null || password === undefined || password === "")
 	) {
 		return res.status(400).json({ data: "Input salah" });
 	}
@@ -59,6 +57,14 @@ const Register = async (req, res) => {
 			name: name,
 			nis: nis,
 			classroom: classroom,
+		});
+
+		// hashing
+		const hash = await bcrypt.hash(password, 10);
+
+		const createPassword = await Password.create({
+			users_id: createUser.id,
+			password: hash,
 		});
 
 		return res.status(200).json({ data: "Register berhasil" });

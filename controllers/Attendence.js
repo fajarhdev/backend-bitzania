@@ -7,7 +7,7 @@ const AddClockin = async (req, res) => {
 	const users_id = req.users_id;
 
 	const { date, time } = req.body;
-	// const clockinTimeLimit = "08:00:00"
+	const clockinTimeLimit = "08:00:00";
 	// verify input
 	if (
 		(date === null || date === undefined || date === "") &&
@@ -17,14 +17,12 @@ const AddClockin = async (req, res) => {
 	}
 
 	try {
-		// if (time > clockinTimeLimit){
-		//     const status = 'datang terlambat'
-		// }
+		const status = time > clockinTimeLimit ? 2 : 1;
 
 		const clockin = await Clockin.create({
 			date: date,
 			time: time,
-			statuses_id: 1,
+			statuses_id: status,
 			users_id: users_id,
 		});
 
@@ -48,15 +46,14 @@ const UpdateClockin = async (req, res) => {
 	const { clockin_id } = req.query;
 
 	try {
-		console.log("asass" + clockin_id);
 		const find = await Clockin.findOne({
 			where: {
 				id: clockin_id,
 			},
 		});
-		console.log(find);
+		const status = time > clockinTimeLimit ? 2 : 1;
 		const update = await Clockin.update(
-			{ date: date, time: time },
+			{ date: date, time: time, statuses_id: status },
 			{
 				where: {
 					id: find.id,
@@ -97,7 +94,7 @@ const AddClockout = async (req, res) => {
 	const users_id = req.users_id;
 
 	const { date, time } = req.body;
-	// const clockoutTimeLimit = "08:00:00"
+
 	// verify input
 	if (
 		(date === null || date === undefined || date === "") &&
@@ -107,14 +104,12 @@ const AddClockout = async (req, res) => {
 	}
 
 	try {
-		// if (time > clockinTimeLimit){
-		//     const status = 'datang terlambat'
-		// }
+		const status = 3;
 
 		const clockout = await Clockout.create({
 			date: date,
 			time: time,
-			statuses_id: 1,
+			statuses_id: status,
 			users_id: users_id,
 		});
 
@@ -143,8 +138,10 @@ const UpdateClockout = async (req, res) => {
 				id: clockout_id,
 			},
 		});
+		const status = 3;
+
 		const update = await Clockout.update(
-			{ date: date, time: time },
+			{ date: date, time: time, statuses_id: status },
 			{
 				where: {
 					id: find.id,

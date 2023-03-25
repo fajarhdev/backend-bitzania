@@ -11,8 +11,9 @@ const { Login, Register } = require("../controllers/User");
 const VerifyToken = require("../middlewares/VerifyToken");
 var router = express.Router();
 
-/* GET users listing. */
 router.post("/login", Login);
+router.post("/register", Register);
+
 router.post("/clockin", VerifyToken, AddClockin);
 router.put("/updateclockin", VerifyToken, UpdateClockin);
 router.delete("/deleteclockin", VerifyToken, DeleteClockin);

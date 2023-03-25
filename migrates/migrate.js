@@ -1,20 +1,16 @@
-const Attendence = require("../models/Attendence");
 const Clockin = require("../models/Clockin");
 const Clockout = require("../models/Clockout");
 const Status = require("../models/Status");
 const User = require("../models/User");
 const Conn = require("../configs/DB");
 const Password = require("../models/Password");
-const Token = require("../models/Token");
 
 const Sync = () => {
 	User.sync();
 	Status.sync();
 	Clockin.sync();
 	Clockout.sync();
-	Attendence.sync();
 	Password.sync();
-	Token.sync();
 };
 
 const Assoc = () => {
@@ -36,12 +32,6 @@ const Assoc = () => {
 		foreignKey: "users_id",
 	});
 	Password.belongsTo(User, {
-		foreignKey: "users_id",
-	});
-	User.hasMany(Token, {
-		foreignKey: "users_id",
-	});
-	Token.belongsTo(User, {
 		foreignKey: "users_id",
 	});
 
