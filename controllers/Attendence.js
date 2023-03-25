@@ -1,13 +1,14 @@
 const Clockin = require("../models/Clockin");
 const Clockout = require("../models/Clockout");
 
+var clockinTimeLimit = "08:00:00";
 // add clockin
 const AddClockin = async (req, res) => {
 	// verify jwt
 	const users_id = req.users_id;
 
 	const { date, time } = req.body;
-	const clockinTimeLimit = "08:00:00";
+
 	// verify input
 	if (
 		(date === null || date === undefined || date === "") &&
@@ -52,6 +53,8 @@ const UpdateClockin = async (req, res) => {
 			},
 		});
 		const status = time > clockinTimeLimit ? 2 : 1;
+		console.log(status);
+
 		const update = await Clockin.update(
 			{ date: date, time: time, statuses_id: status },
 			{

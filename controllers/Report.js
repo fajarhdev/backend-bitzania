@@ -10,6 +10,7 @@ var date = `${year}-${month}-${day}`;
 
 // first load
 const Report = async (req, res) => {
+	const users_id = req.users_id;
 	const { page, limit } = req.query;
 
 	const limits = limit ? parseInt(limit) : 10;
@@ -62,6 +63,7 @@ const Report = async (req, res) => {
 
 const ReportFilter = async (req, res) => {
 	let { dateAwal, dateAkhir, name, classroom } = req.body;
+	const users_id = req.users_id;
 
 	const { page, limit } = req.query;
 
@@ -304,7 +306,7 @@ const ReportFilter = async (req, res) => {
 			// // return
 			// return res.status(200).json({ data: getData });
 		}
-		const pagination = ` LIMIT ${limits} OFFSET ${offsets}`;
+		const pagination = ` u.id = ${users_id} LIMIT ${limits} OFFSET ${offsets}`;
 		const query = fixQuery + condQuery + pagination;
 		console.log(query);
 		const getData = await Conn.query(query, { type: QueryTypes.SELECT });
