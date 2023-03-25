@@ -30,6 +30,12 @@ After that you need to do:
 
 ## API Reference
 
+You can consume the API within this URL:
+
+```http
+  https://backend-bitzania.herokuapp.com/
+```
+
 #### Login to get JWT Token
 
 ```http
