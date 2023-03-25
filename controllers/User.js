@@ -24,6 +24,7 @@ const Login = async (req, res) => {
 				type: QueryTypes.SELECT,
 			}
 		);
+		console.log(getUser);
 		// validate password
 		const validPass = await bcrypt.compare(password, getUser[0].password);
 		console.log(validPass);
