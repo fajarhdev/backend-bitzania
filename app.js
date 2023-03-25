@@ -3,7 +3,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-var indexRouter = require("./routes/index");
+var reportRouter = require("./routes/Report");
 var usersRouter = require("./routes/users");
 const Conn = require("./configs/DB");
 require("dotenv").config;
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/report", reportRouter);
 app.use("/users", usersRouter);
 
 // try {

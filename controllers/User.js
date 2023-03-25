@@ -5,6 +5,7 @@ const Conn = require("../configs/DB");
 const { QueryTypes } = require("sequelize");
 var jwt = require("jsonwebtoken");
 const Token = require("../models/Token");
+require("dotenv").config();
 
 const Login = async (req, res) => {
 	const { nis, password } = req.body;
@@ -17,28 +18,24 @@ const Login = async (req, res) => {
 	}
 	try {
 		// check user
-		const [getUser, _] = await Conn.query(
+		const getUser = await Conn.query(
 			"SELECT users.*, passwords.password FROM `users`JOIN passwords ON passwords.users_id = users.id where users.nis = " +
 				nis,
 			{
 				type: QueryTypes.SELECT,
 			}
 		);
+
+		console.log(getUser);
 		// validate password
-		const validPass = await bcrypt.compare(password, getUser.password);
+		// const validPass = await bcrypt.compare(password, getUser.password);
 
 		if ((getUser === null || getUser === undefined) && validPass === false) {
 			return res.status(400).json({ data: "NIS tidak terdaftar atau password salah" });
 		}
-
-		const token = jwt.sign({ users_id: getUser.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
-		const refreshToken = jwt.sign({ users_id: getUser.id }, process.env.REFRESH_SECRET_KEY, {
-			expiresIn: "1d",
-		});
-
-		const insertToken = await Token.create({
-			users_id: getUser.id,
-			token: refreshToken,
+		console.log(process.env.SECRET_KEY);
+		const token = jwt.sign({ users_id: getUser[0].id }, process.env.SECRET_KEY, {
+			expiresIn: "1h",
 		});
 
 		return res.status(200).json({ data: token });

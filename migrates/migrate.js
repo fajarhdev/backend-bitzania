@@ -31,12 +31,7 @@ const Assoc = () => {
 	Clockout.belongsTo(User, {
 		foreignKey: "users_id",
 	});
-	User.hasMany(Attendence, {
-		foreignKey: "users_id",
-	});
-	Attendence.belongsTo(User, {
-		foreignKey: "users_id",
-	});
+
 	User.hasMany(Password, {
 		foreignKey: "users_id",
 	});
@@ -62,34 +57,6 @@ const Assoc = () => {
 	});
 	Clockout.belongsTo(User, {
 		foreignKey: "statuses_id",
-	});
-	Status.hasMany(Attendence, {
-		foreignKey: "statuses_id",
-	});
-	Attendence.belongsTo(Status, {
-		foreignKey: "statuses_id",
-	});
-
-	// attendence
-	Clockin.belongsToMany(Clockout, {
-		through: Attendence,
-		foreignKey: "clockin_id",
-	});
-	Clockout.belongsToMany(Clockin, {
-		through: Attendence,
-		foreignKey: "clockout_id",
-	});
-	Clockin.hasMany(Attendence, {
-		foreignKey: "clockin_id",
-	});
-	Attendence.belongsTo(Clockin, {
-		foreignKey: "clockin_id",
-	});
-	Clockout.hasMany(Attendence, {
-		foreignKey: "clockout_id",
-	});
-	Attendence.belongsTo(Clockout, {
-		foreignKey: "clockout_id",
 	});
 };
 

@@ -1,4 +1,3 @@
-const Attendence = require("../models/Attendence");
 const Clockin = require("../models/Clockin");
 const Clockout = require("../models/Clockout");
 
@@ -29,22 +28,66 @@ const AddClockin = async (req, res) => {
 			users_id: users_id,
 		});
 
-		const attendence = await Attendence.create({
-			users_id: users_id,
-			clockin_id: clockin.id,
-			clockout_id: null,
-			statuses_id: null,
-		});
+		// const attendence = await Attendence.create({
+		// 	users_id: users_id,
+		// 	clockin_id: clockin.id,
+		// 	clockout_id: null,
+		// 	statuses_id: null,
+		// });
 
-		return res.status(200).json({ data: "Berhasil menambah attendence" });
+		return res.status(200).json({ data: "Berhasil menambah clock in anda" });
 	} catch (error) {
-		return res.status(500).json({ data: "Gagal menambah attendence", error });
+		return res.status(500).json({ data: "Gagal menambah clock in anda", error });
 	}
 };
 
 // update clockin
+const UpdateClockin = async (req, res) => {
+	const users_id = req.users_id;
+	const { date, time } = req.body;
+	const { clockin_id } = req.query;
+
+	try {
+		console.log("asass" + clockin_id);
+		const find = await Clockin.findOne({
+			where: {
+				id: clockin_id,
+			},
+		});
+		console.log(find);
+		const update = await Clockin.update(
+			{ date: date, time: time },
+			{
+				where: {
+					id: find.id,
+				},
+			}
+		);
+
+		return res.status(200).json({ data: "Berhasil update clock in anda" });
+	} catch (error) {
+		return res.status(500).json({ data: "Gagal update clock in anda", error });
+	}
+};
 
 // delete clockin
+const DeleteClockin = async (req, res) => {
+	const users_id = req.users_id;
+
+	const { clockin_id } = req.query;
+
+	try {
+		const deleteClockin = await Clockin.destroy({
+			where: {
+				id: clockin_id,
+			},
+		});
+
+		res.status(200).json({ data: "Berhasil menghapus clock in anda" });
+	} catch (error) {
+		res.status(500).json({ data: "Gagal menghapus clock in anda" });
+	}
+};
 
 // --------------------------------
 
@@ -75,21 +118,69 @@ const AddClockout = async (req, res) => {
 			users_id: users_id,
 		});
 
-		const attendence = await Attendence.create({
-			users_id: users_id,
-			clockin_id: clockout.id,
-			clockout_id: null,
-			statuses_id: null,
-		});
+		// const attendence = await Attendence.create({
+		// 	users_id: users_id,
+		// 	clockin_id: clockout.id,
+		// 	clockout_id: null,
+		// 	statuses_id: null,
+		// });
 
-		return res.status(200).json({ data: "Berhasil menambah attendence" });
+		return res.status(200).json({ data: "Berhasil menambah clock out anda" });
 	} catch (error) {
-		return res.status(500).json({ data: "Gagal menambah attendence", error });
+		return res.status(500).json({ data: "Gagal menambah clock out anda", error });
 	}
 };
 
 // update clockout
+const UpdateClockout = async (req, res) => {
+	const users_id = req.users_id;
+	const { date, time } = req.body;
+	const { clockout_id } = req.query;
 
+	try {
+		const find = await Clockout.findOne({
+			where: {
+				id: clockout_id,
+			},
+		});
+		const update = await Clockout.update(
+			{ date: date, time: time },
+			{
+				where: {
+					id: find.id,
+				},
+			}
+		);
+
+		return res.status(200).json({ data: "Berhasil update clock out anda" });
+	} catch (error) {
+		return res.status(500).json({ data: "Gagal update clock out anda", error });
+	}
+};
 // delete clockout
+const DeleteClockout = async (req, res) => {
+	const users_id = req.users_id;
 
-module.exports = { AddClockin, AddClockout };
+	const { clockout_id } = req.query;
+
+	try {
+		const deleteClockout = await Clockout.destroy({
+			where: {
+				id: clockout_id,
+			},
+		});
+
+		res.status(200).json({ data: "Berhasil menghapus clock out anda" });
+	} catch (error) {
+		res.status(500).json({ data: "Gagal menghapus clock out anda" });
+	}
+};
+
+module.exports = {
+	AddClockin,
+	UpdateClockin,
+	DeleteClockin,
+	AddClockout,
+	UpdateClockout,
+	DeleteClockout,
+};
