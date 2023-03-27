@@ -105,7 +105,7 @@ const ReportFilter = async (req, res) => {
 				dateAwal +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE ci.date = co.date OR ci.date IS null OR co.date IS null";
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)";
 
 			// const getData = await Conn.query(fixQuery + condQuery, { type: QueryTypes.SELECT });
 			// console.log(getData);
@@ -129,7 +129,7 @@ const ReportFilter = async (req, res) => {
 				dateAkhir +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE ci.date = co.date OR ci.date IS null OR co.date IS null";
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)";
 
 			// const getData = await Conn.query(fixQuery + condQuery, { type: QueryTypes.SELECT });
 			// console.log(getData);
@@ -148,7 +148,7 @@ const ReportFilter = async (req, res) => {
 				dateAwal +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null) " +
 				"AND u.classroom = '" +
 				classroom +
 				"'";
@@ -174,7 +174,7 @@ const ReportFilter = async (req, res) => {
 				dateAkhir +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null) " +
 				"AND u.classroom = '" +
 				classroom +
 				"'";
@@ -200,7 +200,7 @@ const ReportFilter = async (req, res) => {
 				dateAkhir +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)" +
 				" AND u.classroom = '" +
 				classroom +
 				"' AND u.name = '" +
@@ -227,7 +227,7 @@ const ReportFilter = async (req, res) => {
 				dateAwal +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null) " +
 				"AND u.name = '" +
 				name +
 				"'";
@@ -254,7 +254,7 @@ const ReportFilter = async (req, res) => {
 				dateAkhir +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)" +
 				" AND u.name = '" +
 				name +
 				"'";
@@ -277,7 +277,7 @@ const ReportFilter = async (req, res) => {
 				dateAkhir +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null) " +
 				"AND u.classroom = '" +
 				classroom +
 				"'";
@@ -296,7 +296,7 @@ const ReportFilter = async (req, res) => {
 				dateAwal +
 				"' LEFT JOIN statuses s ON ci.statuses_id = s.id" +
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
-				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) " +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null) " +
 				"AND u.name = '" +
 				name +
 				"'";
