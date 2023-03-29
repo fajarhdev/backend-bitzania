@@ -317,7 +317,7 @@ const ReportFilter = async (req, res) => {
 				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
 				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ((ci.deletedAt IS null OR ci.deletedAt IS NOT null) AND (co.deletedAt IS null OR co.deletedAt IS NOT null))";
 		}
-		const pagination = ` LIMIT ${limits} OFFSET ${offsets}`;
+		const pagination = ` LIMIT ${limits} OFFSET ${offsets};`;
 		const query = fixQuery + condQuery + pagination;
 		console.log(query);
 		const getData = await Conn.query(query, { type: QueryTypes.SELECT });
