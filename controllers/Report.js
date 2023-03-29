@@ -305,6 +305,17 @@ const ReportFilter = async (req, res) => {
 			// console.log(getData);
 			// // return
 			// return res.status(200).json({ data: getData });
+		} else {
+			condQuery =
+				" LEFT JOIN clockin ci ON ci.users_id = u.id AND ci.date = '" +
+				date +
+				"'" +
+				" LEFT JOIN clockout co ON co.users_id = u.id AND co.date = '" +
+				date +
+				"'" +
+				" LEFT JOIN statuses s ON ci.statuses_id = s.id" +
+				" LEFT JOIN statuses so ON co.statuses_id = so.id" +
+				" WHERE (ci.date = co.date OR ci.date IS null OR co.date IS null) AND (u.deletedAt IS null AND ci.deletedAt IS null AND co.deletedAt IS null)";
 		}
 		const pagination = ` LIMIT ${limits} OFFSET ${offsets}`;
 		const query = fixQuery + condQuery + pagination;
