@@ -28,6 +28,7 @@ const Report = async (req, res) => {
 				type: QueryTypes.SELECT,
 			}
 		);
+
 		const totalPages = Math.ceil(getTotalData[0].totaluser / limits);
 		const currentPage = Math.ceil(offsets / limits) + 1;
 		// get data pagination
@@ -53,9 +54,10 @@ const Report = async (req, res) => {
 			}
 		);
 
+		const valData = await checkDuplication(getData);
 		return res
 			.status(200)
-			.json({ data: { users: getData, total_pages: totalPages, current_page: currentPage } });
+			.json({ data: { users: valData, total_pages: totalPages, current_page: currentPage } });
 	} catch (error) {
 		return res.status(500).json({ data: "Tidak dapat mengambil data", error });
 	}
@@ -319,12 +321,32 @@ const ReportFilter = async (req, res) => {
 		}
 		const pagination = ` LIMIT ${limits} OFFSET ${offsets}`;
 		const query = fixQuery + condQuery + pagination;
-		console.log(query);
+		// console.log(query);
 		const getData = await Conn.query(query, { type: QueryTypes.SELECT });
-		return res.status(200).json({ data: getData, current_page: currentPage });
+		const valData = await checkDuplication(getData);
+		// console.log(valData);
+		return res.status(200).json({ data: valData, current_page: currentPage });
 	} catch (error) {
 		return res.status(500).json({ data: "Tidak dapat mengambil data", error });
 	}
+};
+
+const checkDuplication = async (queryResult) => {
+	console.log(queryResult);
+	console.log("--------------------------------------------");
+	const dataArray = [];
+	const uniqueData = {};
+	queryResult.forEach((data) => {
+		if (uniqueData[data.id] == null || data.clockin < uniqueData[data.id].clockin) {
+			uniqueData[data.id] = data;
+		} else if (uniqueData[data.id] == null || data.clockout > uniqueData[data.id].clockout) {
+			uniqueData[data.id] = data;
+		} else {
+			dataArray.push(data);
+		}
+	});
+	// console.log(Object.values(uniqueData));
+	return Object.values(uniqueData);
 };
 
 module.exports = { Report, ReportFilter };
